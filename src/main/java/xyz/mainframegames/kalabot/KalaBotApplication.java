@@ -20,7 +20,7 @@ public class KalaBotApplication {
 
 	//Here are all the currently created listeners that the bot use for the different commands
 	@Autowired
-	private TestListener messageListener;
+	private TestListener testListener;
 	@Autowired
 	private RateListener rateListener;
 
@@ -32,11 +32,6 @@ public class KalaBotApplication {
 	@Bean
 	@ConfigurationProperties
 	public DiscordApi discordApi(){
-		String str = "Hey this is Ram";
-		String [] words = str. split(" ", 4);
-		for (String word : words)
-			System. out. println(word);
-
 		String token = env.getProperty("TOKEN");
 		//Start the bot with the token
 		DiscordApi api = new DiscordApiBuilder().setToken(token)
@@ -45,7 +40,7 @@ public class KalaBotApplication {
 				.join();
 
 		//Add the different listeners required to work
-		api.addMessageCreateListener(messageListener);
+		api.addMessageCreateListener(testListener);
 		api.addMessageCreateListener(rateListener);
 		return api;
 	}

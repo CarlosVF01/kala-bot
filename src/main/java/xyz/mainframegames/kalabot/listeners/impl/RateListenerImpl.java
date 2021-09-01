@@ -17,19 +17,17 @@ public class RateListenerImpl implements RateListener {
     public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
         if (messageCreateEvent.getMessageContent().startsWith(COMMAND_WORD)){
             Matcher matcher = pattern.matcher(messageCreateEvent.getMessageContent());
-
             if (matcher.matches()){
-                int rating = (int) Math.floor(Math.random() * 100) + 1;
+                int rating = (int) Math.floor(Math.random() * 10) + 1;
                 messageCreateEvent
                         .getChannel()
                         .sendMessage(
-                                messageCreateEvent.getMessageAuthor().getDisplayName() + " is " + rating +
-                                        "% " + matcher.group(1)
+                                matcher.group(1) + " is a " + rating + "/10"
                         );
             } else {
                 messageCreateEvent
                         .getChannel()
-                        .sendMessage("The syntax of the '!rate' command is: '!rate [word]'");
+                        .sendMessage("The syntax of the `!rate` command is: `!rate [word]`");
             }
         }
     }
