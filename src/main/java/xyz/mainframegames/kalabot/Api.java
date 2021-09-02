@@ -12,22 +12,21 @@ import xyz.mainframegames.kalabot.listeners.RateListener;
 import xyz.mainframegames.kalabot.listeners.TestListener;
 
 @SpringBootApplication
-public class KalaBotApplication {
+public class Api {
 
 	//This is used to safely start the bot using the hidden token
 	@Autowired
 	private Environment env;
-
 	//Here are all the currently created listeners that the bot use for the different commands
 	@Autowired
 	private TestListener testListener;
 	@Autowired
 	private RateListener rateListener;
 
+	private DiscordApi api;
 	public static void main(String[] args) {
-		SpringApplication.run(KalaBotApplication.class, args);
+		SpringApplication.run(Api.class, args);
 	}
-
 
 	@Bean
 	@ConfigurationProperties
@@ -42,7 +41,11 @@ public class KalaBotApplication {
 		//Add the different listeners required to work
 		api.addMessageCreateListener(testListener);
 		api.addMessageCreateListener(rateListener);
+		this.api = api;
 		return api;
 	}
 
+	public DiscordApi getApi() {
+		return api;
+	}
 }
