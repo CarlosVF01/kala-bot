@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import xyz.mainframegames.kalabot.listeners.AvatarListener;
 import xyz.mainframegames.kalabot.listeners.RateListener;
 import xyz.mainframegames.kalabot.listeners.TestListener;
 
@@ -17,11 +18,13 @@ public class Api {
 	//This is used to safely start the bot using the hidden token
 	@Autowired
 	private Environment env;
-	//Here are all the currently created listeners that the bot use for the different commands
+	//Here are all the currently created listeners that the bot uses for the different commands
 	@Autowired
 	private TestListener testListener;
 	@Autowired
 	private RateListener rateListener;
+	@Autowired
+	private AvatarListener avatarListener;
 
 	private DiscordApi api;
 	public static void main(String[] args) {
@@ -41,6 +44,7 @@ public class Api {
 		//Add the different listeners required to work
 		api.addMessageCreateListener(testListener);
 		api.addMessageCreateListener(rateListener);
+		api.addMessageCreateListener(avatarListener);
 		this.api = api;
 		return api;
 	}

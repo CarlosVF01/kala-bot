@@ -9,29 +9,40 @@ import org.springframework.stereotype.Component;
 import xyz.mainframegames.kalabot.services.MessagingService;
 
 import java.awt.*;
+import java.io.File;
 
 @Component
 public class MessagingServiceImpl implements MessagingService {
     @Override
-    public void sendMessage(MessageAuthor author, String title, String description, String footer, Icon thumbnail, int[] colors, TextChannel channel) {
+    public void sendMessage(MessageAuthor author, String title, String description, String footer, Icon thumbnail, Color color, TextChannel channel) {
         new MessageBuilder().setEmbed(new EmbedBuilder()
                 .setAuthor(author)
                 .setTitle(title)
                 .setDescription(description)
                 .setFooter(footer)
                 .setThumbnail(thumbnail)
-                .setColor(new Color(colors[0],colors[1], colors[2])))
+                .setColor(color))
                 .send(channel);
     }
-    public void sendMessage(MessageAuthor author, String title, String description, String footer, String thumbnail, int[] colors, TextChannel channel) {
+    public void sendMessage(MessageAuthor author, String title, String description, String footer, String thumbnail, Color color, TextChannel channel) {
         new MessageBuilder().setEmbed(new EmbedBuilder()
                 .setAuthor(author)
                 .setTitle(title)
                 .setDescription(description)
                 .setFooter(footer)
                 .setThumbnail(thumbnail)
-                .setColor(new Color(colors[0],colors[1], colors[2])))
+                .setColor(color))
                 .send(channel);
+    }
+    public void sendImage(Icon image, TextChannel channel){
+        new MessageBuilder().setEmbed(new EmbedBuilder()
+                .setImage(image)
+                ).send(channel);
+    }
+    public void sendImage(String image, TextChannel channel){
+        new MessageBuilder().setEmbed(new EmbedBuilder()
+                .setImage(image)
+                ).send(channel);
     }
     //Method to format the user IDs that the bot gets from a mention
     //Formatted User ID example: 123456789123456789
