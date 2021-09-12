@@ -15,7 +15,6 @@
         }
       ],
       "command": null,
-      "linuxParameters": null,
       "cpu": 0,
       "environment": [],
       "resourceRequirements": null,
@@ -29,7 +28,7 @@
       "memoryReservation": 500,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "544643656333.dkr.ecr.eu-west-3.amazonaws.com/kala-bot:latest",
+      "image": "544643656333.dkr.ecr.eu-west-3.amazonaws.com/bot:latest",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -46,13 +45,13 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "kala-bot-container"
+      "name": "bot-container"
     }
   ],
   "placementConstraints": [],
   "memory": null,
   "taskRoleArn": null,
-  "family": "kala-bot",
+  "family": "bot",
   "pidMode": null,
   "requiresCompatibilities": [
     "EC2"
