@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import xyz.mainframegames.kalabot.services.MessagingService;
 
 import java.awt.*;
-import java.io.File;
 
 @Component
 public class MessagingServiceImpl implements MessagingService {
@@ -51,14 +50,8 @@ public class MessagingServiceImpl implements MessagingService {
     //Example 2: <@123456789123456789>
     //So to use the User ID first it needs to be formatted based on what example is the case
     public long formatUserId(String word){
-        long userId;
         //If the user id has a ! the substring is different
-        if(!Character.isDigit(word.charAt(2))) {
-            userId = Long.parseLong(word.substring(3, word.length() - 1));
 
-        } else {
-            userId = Long.parseLong(word.substring(2, word.length() - 1));
-        }
-        return userId;
+        return Long.parseLong(word.substring(!Character.isDigit(word.charAt(2)) ? 3 : 2, word.length() - 1));
     }
 }

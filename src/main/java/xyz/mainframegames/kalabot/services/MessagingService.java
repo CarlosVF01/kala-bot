@@ -5,7 +5,6 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 
 import java.awt.*;
-import java.io.File;
 
 public interface MessagingService {
     void sendMessage(MessageAuthor author, String title, String description, String footer, Icon thumbnail, Color color, TextChannel channel);
