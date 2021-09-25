@@ -48,7 +48,7 @@ public class RateListenerImpl implements RateListener {
             } else {
                messagingService.sendMessage(
                        messageCreateEvent.getMessageAuthor(),
-                       "Rate calculator",
+                       "Rate command error",
                        "The syntax of the `!rate` command is: `!rate [@person]`",
                        null,
                        (String) null,

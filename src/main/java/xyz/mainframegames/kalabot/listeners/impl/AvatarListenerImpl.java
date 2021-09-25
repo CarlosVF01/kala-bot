@@ -11,7 +11,6 @@ import xyz.mainframegames.kalabot.utils.Commands;
 import xyz.mainframegames.kalabot.utils.Regex;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -44,7 +43,7 @@ public class AvatarListenerImpl implements AvatarListener {
             } else {
                 messagingService.sendMessage(
                         messageCreateEvent.getMessageAuthor(),
-                        "Avatar command",
+                        "Avatar command error",
                         "The syntax of the `!avatar` command is: `!avatar [@person]`",
                         null,
                         (String) null,
