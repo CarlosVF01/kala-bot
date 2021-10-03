@@ -7,6 +7,7 @@ import xyz.mainframegames.kalabot.Api;
 import xyz.mainframegames.kalabot.listeners.RateListener;
 import xyz.mainframegames.kalabot.services.MessagingService;
 import xyz.mainframegames.kalabot.utils.Commands;
+import xyz.mainframegames.kalabot.utils.Errors;
 import xyz.mainframegames.kalabot.utils.Regex;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class RateListenerImpl implements RateListener {
     private MessagingService messagingService;
 
     //Pattern required for the command to work
-    private final static Pattern pattern = Pattern.compile(Commands.RATE.toString() + " " + Regex.MENTION_REGEX.toString());
+    private final static Pattern pattern = Pattern.compile(Commands.RATE + " " + Regex.MENTION_REGEX);
 
     @Override
     public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
@@ -34,7 +35,7 @@ public class RateListenerImpl implements RateListener {
                 //Generates the random number out of 10
                 int rating = (int) Math.floor(Math.random() * 10)+ 1;
                 try {
-                    messagingService.sendMessage(
+                    messagingService.sendMessageEmbed(
                             messageCreateEvent.getMessageAuthor(),
                             "Rate calculator",
                             matcher.group(1) + " is a " + rating + "/10",
@@ -43,17 +44,18 @@ public class RateListenerImpl implements RateListener {
                             Color.BLACK,
                             messageCreateEvent.getChannel());
                 } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+                    System.out.println("Error ocurred in RATE command " + e);
                 }
             } else {
-               messagingService.sendMessage(
+               messagingService.sendMessageEmbed(
                        messageCreateEvent.getMessageAuthor(),
-                       "Rate command error",
-                       "The syntax of the `!rate` command is: `!rate [@person]`",
+                       Errors.RATE.getError(),
+                       Errors.RATE.getDescription(),
                        null,
                        (String) null,
                        Color.BLACK,
-                       messageCreateEvent.getChannel());
+                       messageCreateEvent.getChannel()
+               );
             }
         }
     }
