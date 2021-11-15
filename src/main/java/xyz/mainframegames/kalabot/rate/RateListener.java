@@ -1,4 +1,4 @@
-package xyz.mainframegames.kalabot.listeners;
+package xyz.mainframegames.kalabot.rate;
 
 import org.javacord.api.listener.message.MessageCreateListener;
 

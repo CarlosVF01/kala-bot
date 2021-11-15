@@ -1,11 +1,10 @@
-package xyz.mainframegames.kalabot.utils;
+package xyz.mainframegames.kalabot.utils.enums;
 
 //Enum with all the commands that the bot has for organization purposes and cleaner code
 public enum Commands {
     RATE("!rate"),
-    TEST("!test"),
-    AVATAR("!avatar")
-    ;
+    PLAY("!play"),
+    AVATAR("!avatar");
 
     private final String text;
 
