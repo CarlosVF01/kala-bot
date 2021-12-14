@@ -4,6 +4,7 @@ package xyz.mainframegames.kalabot.utils.enums;
 public enum Commands {
     RATE("!rate"),
     PLAY("!play"),
+    STOP("!stop"),
     AVATAR("!avatar");
 
     private final String text;

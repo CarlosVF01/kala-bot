@@ -11,14 +11,13 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.enums.Commands;
 import xyz.mainframegames.kalabot.utils.enums.Errors;
 import xyz.mainframegames.kalabot.utils.enums.Regex;
-
-import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static xyz.mainframegames.kalabot.utils.enums.Names.BOT_NAME;
+import static xyz.mainframegames.kalabot.utils.enums.FunctionsAndPredicates.authorIsNotBot;
+import static xyz.mainframegames.kalabot.utils.enums.FunctionsAndPredicates.sendErrorMessage;
 
 @Component
 @Slf4j
@@ -32,35 +31,24 @@ public class AvatarListenerImpl implements AvatarListener {
 
     private static final Pattern pattern = Pattern.compile(Commands.AVATAR + " " + Regex.MENTION_REGEX);
 
-
     @Override
     public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
         if (messageCreateEvent.getMessageContent().startsWith(Commands.AVATAR.toString())) {
 
-            TextChannel channel = messageCreateEvent.getChannel();
+            TextChannel textChannel = messageCreateEvent.getChannel();
             Matcher matcher = pattern.matcher(messageCreateEvent.getMessageContent());
 
             if (matcher.matches()) {
                 CompletableFuture<User> user = api.getDiscordApi().getUserById(messagingService.formatUserId(matcher.group(1)));
                 try {
-                    messagingService.sendImage(
-                            user.get()
-                                    .getAvatar()
-                                    .getUrl()
-                                    .toString() + "?size=1024", channel);
+                    String userAvatarUrl = user.get().getAvatar().getUrl().toString();
+                    messagingService.sendImage(userAvatarUrl + "?size=1024", textChannel);
                 } catch (InterruptedException | ExecutionException e) {
                     log.error("Avatar error {}", e.getMessage());
                     Thread.currentThread().interrupt();
                 }
-            } else if(!messageCreateEvent.getMessageAuthor().getName().equals(BOT_NAME.toString())) {
-                messagingService.sendMessageEmbed(
-                        messageCreateEvent.getMessageAuthor(),
-                        Errors.AVATAR.getError(),
-                        Errors.AVATAR.getDescription(),
-                        null,
-                        null,
-                        Color.BLACK,
-                        channel);
+            } else if (authorIsNotBot.test(messageCreateEvent)) {
+                sendErrorMessage(messagingService, messageCreateEvent.getMessageAuthor(), textChannel, Errors.AVATAR);
             }
         }
     }

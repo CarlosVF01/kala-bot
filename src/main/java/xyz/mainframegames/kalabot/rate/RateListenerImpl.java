@@ -16,6 +16,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static xyz.mainframegames.kalabot.utils.enums.FunctionsAndPredicates.authorIsNotBot;
+import static xyz.mainframegames.kalabot.utils.enums.FunctionsAndPredicates.sendErrorMessage;
 import static xyz.mainframegames.kalabot.utils.enums.Names.BOT_NAME;
 
 @Slf4j
@@ -54,16 +56,8 @@ public class RateListenerImpl implements RateListener {
                     log.error("Rate Error {}", e.getMessage());
                     Thread.currentThread().interrupt();
                 }
-            } else if (!messageCreateEvent.getMessageAuthor().getName().equals(BOT_NAME.toString())) {
-                messagingService.sendMessageEmbed(
-                        messageCreateEvent.getMessageAuthor(),
-                        Errors.RATE.getError(),
-                        Errors.RATE.getDescription(),
-                        null,
-                        null,
-                        Color.BLACK,
-                        messageCreateEvent.getChannel()
-                );
+            }else if (authorIsNotBot.test(messageCreateEvent)) {
+                sendErrorMessage(messagingService, messageCreateEvent.getMessageAuthor(), messageCreateEvent.getChannel(), Errors.RATE);
             }
         }
     }
