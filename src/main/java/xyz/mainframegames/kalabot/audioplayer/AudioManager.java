@@ -15,10 +15,9 @@ public class AudioManager {
    */
   public static ServerMusicManager get(long server) {
 
-    managers.computeIfAbsent(
-        server,
-        serverKey ->
-            managers.put(serverKey, new ServerMusicManager(PlayerManager.getAudioManager())));
+    if (!managers.containsKey(server)) {
+      managers.put(server, new ServerMusicManager(PlayerManager.getAudioManager()));
+    }
 
     return managers.get(server);
   }

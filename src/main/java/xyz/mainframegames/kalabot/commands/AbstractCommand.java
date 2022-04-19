@@ -1,15 +1,19 @@
 package xyz.mainframegames.kalabot.commands;
 
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.sendErrorMessage;
+
+import java.util.regex.Pattern;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
+import xyz.mainframegames.kalabot.utils.BotError;
+import xyz.mainframegames.kalabot.utils.Command;
 
 public abstract class AbstractCommand implements MessageCreateListener {
 
-  private static final String COMMAND_PREFIX = "!";
   protected final String command;
   protected final MessagingService messagingService;
 
@@ -21,14 +25,17 @@ public abstract class AbstractCommand implements MessageCreateListener {
   @Override
   public void onMessageCreate(MessageCreateEvent event) {
 
-    if(!event.isServerMessage())
+    if (!event.isServerMessage()) {
       return;
+    }
 
-    if(!event.getMessageAuthor().isRegularUser())
+    if (!event.getMessageAuthor().isRegularUser()) {
       return;
+    }
 
-    if(!event.getMessageContent().startsWith(COMMAND_PREFIX+command))
+    if (!event.getMessageContent().split(" ")[0].equals(command)) {
       return;
+    }
 
     event
         .getServer()
@@ -44,6 +51,33 @@ public abstract class AbstractCommand implements MessageCreateListener {
                                 .ifPresent(
                                     serverTextChannel ->
                                         runCommand(event, server, serverTextChannel, user))));
+  }
+
+  /**
+   * Checks if there's a syntax error in the command introduced by the user
+   *
+   * @param event    message event {@link MessageCreateEvent}
+   * @param botError error depending on the command {@link BotError}
+   * @param channel  event channel {@link ServerTextChannel}
+   * @param command  command introduced {@link Command}
+   * @return if there's an error (true) or not (false)
+   */
+  protected boolean checkNoCommandSyntaxError(
+      MessageCreateEvent event, BotError botError, ServerTextChannel channel, Command command,
+      Pattern pattern) {
+    String messageContent = event.getMessageContent();
+    if (pattern != null) {
+      if (messageContent.startsWith(command.toString())
+          && pattern.matcher(messageContent).matches()) {
+        return true;
+      }
+    } else {
+      if (messageContent.startsWith(command.toString())) {
+        return true;
+      }
+    }
+    sendErrorMessage(messagingService, event.getMessageAuthor(), channel, botError);
+    return false;
   }
 
   protected abstract void runCommand(

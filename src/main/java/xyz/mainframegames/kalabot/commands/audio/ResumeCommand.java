@@ -11,10 +11,10 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
-public class PauseCommand extends AbstractCommand {
+public class ResumeCommand extends AbstractCommand {
 
-  public PauseCommand(MessagingService messagingService) {
-    super(Command.PAUSE.toString(), messagingService);
+  public ResumeCommand(MessagingService messagingService) {
+    super(Command.RESUME.toString(), messagingService);
   }
 
   @Override
@@ -24,12 +24,14 @@ public class PauseCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              AudioPlayer audioPlayer = AudioManager.get(server.getId()).player;
-              audioPlayer.setPaused(true);
-              if (audioPlayer.getPlayingTrack() == null) {
-                event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription());
+              AudioPlayer player = AudioManager.get(server.getId()).player;
+
+              if (player.getPlayingTrack() == null || !player.isPaused()) {
+                event.getChannel().sendMessage("There's no track paused");
+
               } else {
-                event.getChannel().sendMessage("The player has been paused");
+                player.setPaused(false);
+                event.getChannel().sendMessage("Track resumed");
               }
             },
             () -> event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription()));

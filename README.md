@@ -20,6 +20,7 @@ uses [Javacord](https://github.com/Javacord/Javacord) and Spring Framework
 ![Screenshot](https://cdn.discordapp.com/attachments/882699513989562372/891306625955160104/Rate_command.PNG)
 
 ## Play
+
 - **Function**: Allows the bot to play music on an audio channel
 - **Command syntax**: !play [Youtube Link]
 

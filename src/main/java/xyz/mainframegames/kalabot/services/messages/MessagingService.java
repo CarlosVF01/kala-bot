@@ -4,7 +4,9 @@ import java.awt.Color;
 import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
+import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
+import xyz.mainframegames.kalabot.utils.Emoji;
 
 public interface MessagingService {
 
@@ -15,6 +17,7 @@ public interface MessagingService {
       String footer,
       Icon thumbnail,
       Color color,
+      Emoji emoji,
       MessageCreateEvent event);
 
   void sendMessageEmbed(
@@ -25,6 +28,8 @@ public interface MessagingService {
       String thumbnail,
       Color color,
       TextChannel channel);
+
+  void sendMessageEmbedCustom(MessageBuilder messageBuilder, TextChannel textChannel);
 
   void sendImage(String image, TextChannel channel);
 

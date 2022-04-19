@@ -1,8 +1,11 @@
 package xyz.mainframegames.kalabot.utils;
 
-/** Enum with names used throughout the whole application */
+/**
+ * Enum with names used throughout the whole application
+ */
 public enum Names {
-  BOT_NAME("Kala Bot");
+  BOT_NAME("Kala Bot"),
+  RATE_COMMAND_TITLE("Rate calculator");
 
   private final String text;
 

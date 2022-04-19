@@ -5,21 +5,26 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 
-/** Class that contains predicates and functions that are use globally in the application */
+/**
+ * Class that contains predicates and functions that are use globally in the application
+ */
 public final class FunctionsAndPredicates {
 
-  /** Private constructor to avoid having this class initialized */
-  private FunctionsAndPredicates() {}
+  /**
+   * Private constructor to avoid having this class initialized
+   */
+  private FunctionsAndPredicates() {
+  }
 
   public static void sendErrorMessage(
       MessagingService messagingService,
       MessageAuthor messageAuthor,
       TextChannel textChannel,
-      Errors error) {
+      BotError botError) {
     messagingService.sendMessageEmbed(
         messageAuthor,
-        error.getError(),
-        error.getDescription(),
+        botError.getError(),
+        botError.getDescription(),
         null,
         null,
         Color.BLACK,

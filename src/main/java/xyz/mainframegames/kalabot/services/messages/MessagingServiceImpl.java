@@ -14,6 +14,7 @@ import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.springframework.stereotype.Service;
+import xyz.mainframegames.kalabot.utils.Emoji;
 
 @Service
 @Slf4j
@@ -31,6 +32,7 @@ public class MessagingServiceImpl implements MessagingService {
       String footer,
       Icon thumbnail,
       Color color,
+      Emoji emoji,
       MessageCreateEvent event) {
     event
         .getChannel()
@@ -38,7 +40,7 @@ public class MessagingServiceImpl implements MessagingService {
             reactionAddEvent -> {
               Optional<Message> message = reactionAddEvent.getMessage();
               if (message.isPresent()) {
-                if (reactionAddEvent.getEmoji().equalsEmoji("👎")
+                if (reactionAddEvent.getEmoji().equalsEmoji(emoji.toString())
                     && message.get().getAuthor().getName().equals(BOT_NAME.toString())) {
                   event.getChannel().sendMessage("Sorry you didn't like it \uD83D\uDE14");
                   reactionAddEvent.deleteMessage();
@@ -80,6 +82,11 @@ public class MessagingServiceImpl implements MessagingService {
                 .setThumbnail(thumbnail)
                 .setColor(color))
         .send(channel);
+  }
+
+  @Override
+  public void sendMessageEmbedCustom(MessageBuilder messageBuilder, TextChannel textChannel) {
+    messageBuilder.send(textChannel);
   }
 
   @Override
