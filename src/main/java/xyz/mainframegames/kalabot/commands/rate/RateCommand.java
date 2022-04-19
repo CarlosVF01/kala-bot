@@ -12,7 +12,6 @@ import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.springframework.stereotype.Component;
 import xyz.mainframegames.kalabot.commands.AbstractCommand;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
@@ -20,7 +19,6 @@ import xyz.mainframegames.kalabot.utils.Command;
 import xyz.mainframegames.kalabot.utils.Regex;
 
 @Slf4j
-@Component
 public class RateCommand extends AbstractCommand {
 
   private static final Pattern pattern = Pattern.compile(Command.RATE + " " + Regex.MENTION_REGEX);

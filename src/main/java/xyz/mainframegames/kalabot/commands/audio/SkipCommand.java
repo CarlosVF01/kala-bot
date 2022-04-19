@@ -25,8 +25,8 @@ public class SkipCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              TrackScheduler scheduler = AudioManager.get(server.getId()).scheduler;
-              AudioPlayer player = AudioManager.get(server.getId()).player;
+              TrackScheduler scheduler = AudioManager.getServerManager(server.getId()).scheduler;
+              AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
               if (player.getPlayingTrack() == null && !player.isPaused()) {
                 event.getChannel().sendMessage("There's no track playing");
@@ -36,6 +36,6 @@ public class SkipCommand extends AbstractCommand {
                 event.getChannel().sendMessage("Track skipped");
               }
             },
-            () -> event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription()));
+            () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
   }
 }

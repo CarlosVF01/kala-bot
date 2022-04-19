@@ -5,14 +5,12 @@ import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.springframework.stereotype.Service;
 import xyz.mainframegames.kalabot.commands.AbstractCommand;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
 @Slf4j
-@Service
 public class AvatarCommand extends AbstractCommand {
 
   private static final BotError BOT_ERROR = BotError.AVATAR;

@@ -24,7 +24,7 @@ public class ResumeCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              AudioPlayer player = AudioManager.get(server.getId()).player;
+              AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
               if (player.getPlayingTrack() == null || !player.isPaused()) {
                 event.getChannel().sendMessage("There's no track paused");
@@ -34,6 +34,6 @@ public class ResumeCommand extends AbstractCommand {
                 event.getChannel().sendMessage("Track resumed");
               }
             },
-            () -> event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription()));
+            () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
   }
 }

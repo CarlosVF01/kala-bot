@@ -5,7 +5,8 @@ package xyz.mainframegames.kalabot.utils;
  */
 public enum Names {
   BOT_NAME("Kala Bot"),
-  RATE_COMMAND_TITLE("Rate calculator");
+  RATE_COMMAND_TITLE("Rate calculator"),
+  HELP_COMMAND_TITLE("List of commands");
 
   private final String text;
 

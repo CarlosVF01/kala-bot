@@ -24,14 +24,14 @@ public class PauseCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              AudioPlayer audioPlayer = AudioManager.get(server.getId()).player;
+              AudioPlayer audioPlayer = AudioManager.getServerManager(server.getId()).player;
               audioPlayer.setPaused(true);
               if (audioPlayer.getPlayingTrack() == null) {
-                event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription());
+                event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription());
               } else {
                 event.getChannel().sendMessage("The player has been paused");
               }
             },
-            () -> event.getChannel().sendMessage(BotError.PLAYING_MUSIC.getDescription()));
+            () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
   }
 }

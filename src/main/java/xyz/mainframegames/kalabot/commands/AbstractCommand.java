@@ -12,6 +12,9 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
+/**
+ * Class to reduce duplicity of code when creating commands
+ */
 public abstract class AbstractCommand implements MessageCreateListener {
 
   protected final String command;
@@ -60,19 +63,22 @@ public abstract class AbstractCommand implements MessageCreateListener {
    * @param botError error depending on the command {@link BotError}
    * @param channel  event channel {@link ServerTextChannel}
    * @param command  command introduced {@link Command}
+   * @param pattern  pattern used to check the user input {@link Pattern} if it's null there won't
+   *                 be a check
    * @return if there's an error (true) or not (false)
    */
   protected boolean checkNoCommandSyntaxError(
       MessageCreateEvent event, BotError botError, ServerTextChannel channel, Command command,
       Pattern pattern) {
     String messageContent = event.getMessageContent();
+    boolean messageStartsWithCommand = messageContent.startsWith(command.toString());
     if (pattern != null) {
-      if (messageContent.startsWith(command.toString())
+      if (messageStartsWithCommand
           && pattern.matcher(messageContent).matches()) {
         return true;
       }
     } else {
-      if (messageContent.startsWith(command.toString())) {
+      if (messageStartsWithCommand) {
         return true;
       }
     }

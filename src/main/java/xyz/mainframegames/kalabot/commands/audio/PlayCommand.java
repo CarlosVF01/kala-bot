@@ -13,7 +13,6 @@ import org.javacord.api.entity.permission.PermissionType;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.springframework.stereotype.Service;
 import xyz.mainframegames.kalabot.audioplayer.AudioManager;
 import xyz.mainframegames.kalabot.audioplayer.LavaplayerAudioSource;
 import xyz.mainframegames.kalabot.audioplayer.PlayerManager;
@@ -23,7 +22,6 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
-@Service
 @Slf4j
 public class PlayCommand extends AbstractCommand {
 
@@ -52,7 +50,7 @@ public class PlayCommand extends AbstractCommand {
       event.getMessageAuthor().getConnectedVoiceChannel().ifPresentOrElse(voiceChannel -> {
 
         if (botHasPermissions(voiceChannel, event)) {
-          ServerMusicManager musicManager = AudioManager.get(server.getId());
+          ServerMusicManager musicManager = AudioManager.getServerManager(server.getId());
           String query = event.getMessageContent()
               .replace(event.getMessageContent().split(" ")[0] + " ", "");
           if (botIsNotConnectedAndAudioConnectionIsClosed(voiceChannel, event, server)) {

@@ -1,5 +1,7 @@
 package xyz.mainframegames.kalabot.commands.help;
 
+import static xyz.mainframegames.kalabot.utils.Names.HELP_COMMAND_TITLE;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.javacord.api.entity.channel.ServerTextChannel;
@@ -27,7 +29,7 @@ public class HelpCommand extends AbstractCommand {
             .collect(Collectors.joining("\n"));
     messagingService.sendMessageEmbed(
         event.getMessageAuthor(),
-        "List of commands",
+        HELP_COMMAND_TITLE.toString(),
         commandDescription,
         null,
         null,

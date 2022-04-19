@@ -1,18 +1,17 @@
 package xyz.mainframegames.kalabot.utils;
 
 /**
- * Enum with all the commands to have them grouped in one place
+ * Enum with all the commands and descriptions to have them grouped in one place
  */
 public enum Command {
   RATE("!rate", "Rates someone in a scale of 10"),
   PLAY("!play", "Plays a youtube video"),
-  PAUSE("!pause", "Pauses the audio player"),
+  PAUSE("!pause", "Pauses the audio track"),
   SKIP("!skip", "Skips the current audio track"),
   RESUME("!resume", "Resumes the current audio track"),
-  LEAVE("!leave", "Makes the bot leave the audio channel"),
+  LEAVE("!leave", "Makes the bot leave the voice channel"),
   AVATAR("!avatar", "Shows your avatar"),
   HELP("!help", "Shows the list of available commands");
-
 
   private final String commandInput;
   private final String commandDescription;

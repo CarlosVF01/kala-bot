@@ -8,9 +8,11 @@ public class PlayerManager {
 
   private static final AudioPlayerManager audioManager = new DefaultAudioPlayerManager();
 
+  private PlayerManager() {
+  }
+
   /**
-   * This is only here since we want to initialize the thing from the start, from the YouTube
-   * Source, etc.
+   * Youtube source manager initialization
    */
   public static void init() {
     audioManager.registerSourceManager(new YoutubeAudioSourceManager(true));

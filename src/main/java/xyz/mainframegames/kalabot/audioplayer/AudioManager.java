@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class AudioManager {
 
+  private AudioManager() {
+  }
+
   private static final Map<Long, ServerMusicManager> managers = new HashMap<>();
 
   /**
@@ -13,7 +16,7 @@ public class AudioManager {
    * @param server the server's identification number.
    * @return a ServerMusicManager.
    */
-  public static ServerMusicManager get(long server) {
+  public static ServerMusicManager getServerManager(long server) {
 
     if (!managers.containsKey(server)) {
       managers.put(server, new ServerMusicManager(PlayerManager.getAudioManager()));

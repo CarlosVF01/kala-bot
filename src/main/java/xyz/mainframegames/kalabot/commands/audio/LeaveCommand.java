@@ -27,7 +27,7 @@ public class LeaveCommand extends AbstractCommand {
                     .getAudioConnection()
                     .ifPresentOrElse(
                         connection -> {
-                          AudioManager.get(server.getId()).player.stopTrack();
+                          AudioManager.getServerManager(server.getId()).player.stopTrack();
                           connection.close();
                         },
                         () -> event.getChannel()
