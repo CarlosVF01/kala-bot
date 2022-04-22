@@ -1,5 +1,7 @@
 package xyz.mainframegames.kalabot.commands.avatar;
 
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.commandHasXAmountOfWords;
+
 import lombok.extern.slf4j.Slf4j;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
@@ -9,6 +11,7 @@ import xyz.mainframegames.kalabot.commands.AbstractCommand;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
+import xyz.mainframegames.kalabot.utils.FunctionsAndPredicates;
 
 @Slf4j
 public class AvatarCommand extends AbstractCommand {
@@ -25,7 +28,13 @@ public class AvatarCommand extends AbstractCommand {
   protected void runCommand(
       MessageCreateEvent event, Server server, ServerTextChannel channel, User user) {
     if (checkNoCommandSyntaxError(event, BOT_ERROR, channel, COMMAND_TYPE, null)) {
-      String userAvatarUrl = user.getAvatar().getUrl().toString();
+      String userAvatarUrl;
+      if (commandHasXAmountOfWords(event, 1)) {
+        userAvatarUrl = user.getAvatar().getUrl().toString();
+      } else {
+        User userFuture = FunctionsAndPredicates.getUseFromMentionFuture(user, event);
+        userAvatarUrl = userFuture.getAvatar().getUrl().toString();
+      }
       messagingService.sendImage(userAvatarUrl + SIZE, channel);
     }
   }

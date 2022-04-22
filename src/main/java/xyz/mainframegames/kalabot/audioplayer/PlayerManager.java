@@ -8,6 +8,9 @@ public class PlayerManager {
 
   private static final AudioPlayerManager audioManager = new DefaultAudioPlayerManager();
 
+  /**
+   * Private constructor to avoid having this class initialized
+   */
   private PlayerManager() {
   }
 

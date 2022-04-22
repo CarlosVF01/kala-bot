@@ -1,16 +1,17 @@
 package xyz.mainframegames.kalabot.utils;
 
 public enum Emoji {
-  THUMBS_DOWN("👎");
+  THUMBS_DOWN("👎"),
+  SAD_FACE("😔");
 
-  private final String emoji;
+  private final String emojiString;
 
-  Emoji(String emoji) {
-    this.emoji = emoji;
+  Emoji(String emojiString) {
+    this.emojiString = emojiString;
   }
 
   @Override
   public String toString() {
-    return emoji;
+    return emojiString;
   }
 }

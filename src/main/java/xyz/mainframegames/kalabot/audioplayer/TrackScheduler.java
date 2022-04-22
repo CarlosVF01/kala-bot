@@ -43,6 +43,13 @@ public class TrackScheduler extends AudioEventAdapter {
     player.startTrack(queue.poll(), false);
   }
 
+  /**
+   * Starts the next track once one ends
+   *
+   * @param player    audio player
+   * @param track     audio track
+   * @param endReason reason to end
+   */
   @Override
   public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
     if (endReason.mayStartNext) {

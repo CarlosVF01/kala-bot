@@ -13,6 +13,8 @@ import xyz.mainframegames.kalabot.utils.Command;
 
 public class PauseCommand extends AbstractCommand {
 
+  private static final String PAUSED = "The player has been paused";
+
   public PauseCommand(MessagingService messagingService) {
     super(Command.PAUSE.toString(), messagingService);
   }
@@ -25,11 +27,11 @@ public class PauseCommand extends AbstractCommand {
         .ifPresentOrElse(
             connection -> {
               AudioPlayer audioPlayer = AudioManager.getServerManager(server.getId()).player;
-              audioPlayer.setPaused(true);
               if (audioPlayer.getPlayingTrack() == null) {
                 event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription());
               } else {
-                event.getChannel().sendMessage("The player has been paused");
+                audioPlayer.setPaused(true);
+                event.getChannel().sendMessage(PAUSED);
               }
             },
             () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));

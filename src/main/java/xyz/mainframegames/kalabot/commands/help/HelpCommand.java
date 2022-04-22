@@ -1,5 +1,6 @@
 package xyz.mainframegames.kalabot.commands.help;
 
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.embedMessageDataBuilder;
 import static xyz.mainframegames.kalabot.utils.Names.HELP_COMMAND_TITLE;
 
 import java.util.stream.Collectors;
@@ -9,10 +10,14 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import xyz.mainframegames.kalabot.commands.AbstractCommand;
+import xyz.mainframegames.kalabot.data.EmbedMessageData;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.Command;
 
 public class HelpCommand extends AbstractCommand {
+
+  private static final String COMMAND_DELIMITER = ": ";
+  private static final String NEW_LINE = "\n";
 
   public HelpCommand(MessagingService messagingService) {
     super(Command.HELP.toString(), messagingService);
@@ -25,15 +30,16 @@ public class HelpCommand extends AbstractCommand {
 
     String commandDescription =
         Stream.of(values)
-            .map(command -> command.getCommandInput() + ": " + command.getCommandDescription())
-            .collect(Collectors.joining("\n"));
+            .map(command -> command.getCommandInput() + COMMAND_DELIMITER
+                + command.getCommandDescription())
+            .collect(Collectors.joining(NEW_LINE));
+
+    EmbedMessageData embedMessageData = embedMessageDataBuilder(event.getMessageAuthor(),
+        HELP_COMMAND_TITLE.toString(), commandDescription,
+        null, null, null);
+
     messagingService.sendMessageEmbed(
-        event.getMessageAuthor(),
-        HELP_COMMAND_TITLE.toString(),
-        commandDescription,
-        null,
-        null,
-        null,
+        embedMessageData,
         channel);
   }
 }

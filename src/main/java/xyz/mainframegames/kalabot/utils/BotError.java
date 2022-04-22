@@ -8,8 +8,12 @@ public enum BotError {
   RATE("Rate command error", "The syntax of the `!rate` command is: `!rate [@person]`"),
   PLAY("Play command error",
       "The syntax of the `!play` command is: `!play [Youtube Link or Video Name]`"),
-  NOT_PLAYING_MUSIC("Audio Player Error", "I'm not currently playing music"),
-  NOT_IN_VOICE_CHANNEL("Audio Player Error", "I'm not in a voice channel");
+  BOT_PERMISSION_ERROR("", "Not enough permissions"),
+  NOT_PLAYING_MUSIC("", "I'm not currently playing music"),
+  BOT_NOT_IN_A_VOICE_CHANNEL("", "I'm not in a voice channel"),
+  USER_NOT_IN_A_VOICE_CHANNEL("", "You're not in a voice channel"),
+  NOT_IN_SAME_VOICE_CHANNEL("", "You are not in the same voice channel as the bot"),
+  AUDIO_TRACK_EXCEPTION("", "An error has occurred and the track couldn't be played");
 
   private final String error;
   private final String description;

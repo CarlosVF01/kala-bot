@@ -31,7 +31,8 @@ public class LeaveCommand extends AbstractCommand {
                           connection.close();
                         },
                         () -> event.getChannel()
-                            .sendMessage(BotError.NOT_IN_VOICE_CHANNEL.getDescription())),
-            () -> event.getChannel().sendMessage(BotError.NOT_IN_VOICE_CHANNEL.getDescription()));
+                            .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription())),
+            () -> event.getChannel()
+                .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 }

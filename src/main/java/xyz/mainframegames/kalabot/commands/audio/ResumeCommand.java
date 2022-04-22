@@ -1,5 +1,7 @@
 package xyz.mainframegames.kalabot.commands.audio;
 
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.audioPlayerNotPlayingTrackOrNotPaused;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
@@ -12,6 +14,9 @@ import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
 public class ResumeCommand extends AbstractCommand {
+
+  private static final String NOT_PAUSED = "There's no track paused";
+  private static final String RESUMED = "Track resumed";
 
   public ResumeCommand(MessagingService messagingService) {
     super(Command.RESUME.toString(), messagingService);
@@ -26,14 +31,15 @@ public class ResumeCommand extends AbstractCommand {
             connection -> {
               AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
-              if (player.getPlayingTrack() == null || !player.isPaused()) {
-                event.getChannel().sendMessage("There's no track paused");
+              if (audioPlayerNotPlayingTrackOrNotPaused(player)) {
+                event.getChannel().sendMessage(NOT_PAUSED);
 
               } else {
                 player.setPaused(false);
-                event.getChannel().sendMessage("Track resumed");
+                event.getChannel().sendMessage(RESUMED);
               }
             },
             () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
   }
+
 }

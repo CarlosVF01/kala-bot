@@ -1,5 +1,6 @@
 package xyz.mainframegames.kalabot.commands;
 
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.FIRST;
 import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.sendErrorMessage;
 
 import java.util.regex.Pattern;
@@ -8,6 +9,7 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
+import xyz.mainframegames.kalabot.commands.help.HelpCommand;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
@@ -25,6 +27,12 @@ public abstract class AbstractCommand implements MessageCreateListener {
     this.command = command;
   }
 
+  /**
+   * Using the {@link MessageCreateListener} it reacts to messages that are sent on a channel and
+   * runs the command sent by the user
+   *
+   * @param event message event sent by the user
+   */
   @Override
   public void onMessageCreate(MessageCreateEvent event) {
 
@@ -36,7 +44,7 @@ public abstract class AbstractCommand implements MessageCreateListener {
       return;
     }
 
-    if (!event.getMessageContent().split(" ")[0].equals(command)) {
+    if (!event.getMessageContent().split(" ")[FIRST].equals(command)) {
       return;
     }
 
@@ -86,6 +94,15 @@ public abstract class AbstractCommand implements MessageCreateListener {
     return false;
   }
 
+  /**
+   * Runs the command based on the class that initialized it (for an example go to:
+   * {@link HelpCommand})
+   *
+   * @param event   message event
+   * @param server  server where message is sent
+   * @param channel channel where message is sent
+   * @param user    user that sent the message
+   */
   protected abstract void runCommand(
       MessageCreateEvent event, Server server, ServerTextChannel channel, User user);
 }

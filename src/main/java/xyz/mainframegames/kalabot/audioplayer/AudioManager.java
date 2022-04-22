@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class AudioManager {
 
+  /**
+   * Private class to avoid having it initialized
+   */
   private AudioManager() {
   }
 
@@ -14,7 +17,7 @@ public class AudioManager {
    * Retrieves the server music manager dedicated for the server.
    *
    * @param server the server's identification number.
-   * @return a ServerMusicManager.
+   * @return a {@link ServerMusicManager}.
    */
   public static ServerMusicManager getServerManager(long server) {
 

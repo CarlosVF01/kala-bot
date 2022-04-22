@@ -1,5 +1,6 @@
 package xyz.mainframegames.kalabot.services.messages;
 
+import static xyz.mainframegames.kalabot.utils.Emoji.SAD_FACE;
 import static xyz.mainframegames.kalabot.utils.Names.BOT_NAME;
 
 import java.awt.Color;
@@ -14,24 +15,18 @@ import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.springframework.stereotype.Service;
+import xyz.mainframegames.kalabot.data.EmbedMessageData;
 import xyz.mainframegames.kalabot.utils.Emoji;
 
 @Service
 @Slf4j
 public class MessagingServiceImpl implements MessagingService {
 
-  static final int EXCLAMATION_INDEX = 2;
-  static final int NICKNAME_NOT_CHANGED_INDEX_START = 2;
-  static final int NICKNAME_CHANGED_INDEX_START = 3;
+  private static final String SORRY_REACTION = "Sorry you didn't like it ";
 
   @Override
   public void sendMessageEmbedWithReactionListenerDelete(
-      MessageAuthor author,
-      String title,
-      String description,
-      String footer,
-      Icon thumbnail,
-      Color color,
+      EmbedMessageData messageData,
       Emoji emoji,
       MessageCreateEvent event) {
     event
@@ -42,7 +37,7 @@ public class MessagingServiceImpl implements MessagingService {
               if (message.isPresent()) {
                 if (reactionAddEvent.getEmoji().equalsEmoji(emoji.toString())
                     && message.get().getAuthor().getName().equals(BOT_NAME.toString())) {
-                  event.getChannel().sendMessage("Sorry you didn't like it \uD83D\uDE14");
+                  event.getChannel().sendMessage(SORRY_REACTION + SAD_FACE);
                   reactionAddEvent.deleteMessage();
                 }
               } else {
@@ -54,33 +49,28 @@ public class MessagingServiceImpl implements MessagingService {
     new MessageBuilder()
         .setEmbed(
             new EmbedBuilder()
-                .setAuthor(author)
-                .setTitle(title)
-                .setDescription(description)
-                .setFooter(footer)
-                .setThumbnail(thumbnail)
-                .setColor(color))
+                .setAuthor(messageData.getAuthor())
+                .setTitle(messageData.getTitle())
+                .setDescription(messageData.getDescription())
+                .setFooter(messageData.getFooter())
+                .setThumbnail(messageData.getThumbnail())
+                .setColor(messageData.getColor()))
         .send(event.getChannel());
   }
 
   @Override
   public void sendMessageEmbed(
-      MessageAuthor author,
-      String title,
-      String description,
-      String footer,
-      String thumbnail,
-      Color color,
+      EmbedMessageData messageData,
       TextChannel channel) {
     new MessageBuilder()
         .setEmbed(
             new EmbedBuilder()
-                .setAuthor(author)
-                .setTitle(title)
-                .setDescription(description)
-                .setFooter(footer)
-                .setThumbnail(thumbnail)
-                .setColor(color))
+                .setAuthor(messageData.getAuthor())
+                .setTitle(messageData.getTitle())
+                .setDescription(messageData.getDescription())
+                .setFooter(messageData.getFooter())
+                .setThumbnail(messageData.getThumbnail())
+                .setColor(messageData.getColor()))
         .send(channel);
   }
 
@@ -90,18 +80,7 @@ public class MessagingServiceImpl implements MessagingService {
   }
 
   @Override
-  public void sendImage(String image, TextChannel channel) {
-    new MessageBuilder().setEmbed(new EmbedBuilder().setImage(image)).send(channel);
-  }
-
-  @Override
-  public long formatUserId(String fullId) {
-
-    return Long.parseLong(
-        fullId.substring(
-            Character.isDigit(fullId.charAt(EXCLAMATION_INDEX))
-                ? NICKNAME_NOT_CHANGED_INDEX_START
-                : NICKNAME_CHANGED_INDEX_START,
-            fullId.length() - 1));
+  public void sendImage(String imageUrl, TextChannel channel) {
+    new MessageBuilder().setEmbed(new EmbedBuilder().setImage(imageUrl)).send(channel);
   }
 }

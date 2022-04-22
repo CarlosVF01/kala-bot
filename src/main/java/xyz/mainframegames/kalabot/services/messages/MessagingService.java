@@ -1,46 +1,48 @@
 package xyz.mainframegames.kalabot.services.messages;
 
-import java.awt.Color;
-import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.channel.TextChannel;
-import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
+import xyz.mainframegames.kalabot.data.EmbedMessageData;
 import xyz.mainframegames.kalabot.utils.Emoji;
 
 public interface MessagingService {
 
+  /**
+   * Sends an embed message that deletes itself if a user reacts with the introduced emoji
+   *
+   * @param messageData {@link EmbedMessageData} with the information required
+   * @param emoji       emoji to use in reaction
+   * @param event       message event from the user
+   */
   void sendMessageEmbedWithReactionListenerDelete(
-      MessageAuthor author,
-      String title,
-      String description,
-      String footer,
-      Icon thumbnail,
-      Color color,
+      EmbedMessageData messageData,
       Emoji emoji,
       MessageCreateEvent event);
 
+  /**
+   * Sends an embed message
+   *
+   * @param messageData {@link EmbedMessageData} with the information required
+   * @param channel     text channel where message will be sent
+   */
   void sendMessageEmbed(
-      MessageAuthor author,
-      String title,
-      String description,
-      String footer,
-      String thumbnail,
-      Color color,
+      EmbedMessageData messageData,
       TextChannel channel);
 
+  /**
+   * Send an embed message fully customized in case it's needed
+   *
+   * @param messageBuilder embed message builder
+   * @param textChannel    channel where message will be sent
+   */
   void sendMessageEmbedCustom(MessageBuilder messageBuilder, TextChannel textChannel);
 
-  void sendImage(String image, TextChannel channel);
-
   /**
-   * Formats the user IDs that the bot gets from a mention. All of them have 18 numbers that
-   * represent the ID But when doing a mention the ID given can look like this based on if their
-   * nickname is changed or not: Example 1: <@!123456789123456789> Example 2: <@123456789123456789>
-   * So to use the User ID first it needs to be formatted to one that only has numbers.
+   * Send an image to the text channel
    *
-   * @param fullId the complete user id with extra characters
-   * @return the user id with only numbers
+   * @param imageUrl url to the image
+   * @param channel  channel where message will be sent
    */
-  long formatUserId(String fullId);
+  void sendImage(String imageUrl, TextChannel channel);
 }

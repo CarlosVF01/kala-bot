@@ -1,10 +1,13 @@
 package xyz.mainframegames.kalabot.commands.audio;
 
-import static xyz.mainframegames.kalabot.utils.Regex.ANY_CHARACTER_REGEX;
+import static xyz.mainframegames.kalabot.utils.BotError.AUDIO_TRACK_EXCEPTION;
+import static xyz.mainframegames.kalabot.utils.BotError.BOT_PERMISSION_ERROR;
+import static xyz.mainframegames.kalabot.utils.BotError.NOT_IN_SAME_VOICE_CHANNEL;
+import static xyz.mainframegames.kalabot.utils.BotError.USER_NOT_IN_A_VOICE_CHANNEL;
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.FIRST;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.FunctionalResultHandler;
-import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.javacord.api.audio.AudioSource;
 import org.javacord.api.entity.channel.ServerTextChannel;
@@ -25,11 +28,6 @@ import xyz.mainframegames.kalabot.utils.Command;
 @Slf4j
 public class PlayCommand extends AbstractCommand {
 
-  private static final Pattern patternAny = Pattern.compile(
-      Command.PLAY + " " + ANY_CHARACTER_REGEX);
-  private static final Pattern patternUrl = Pattern.compile(
-      Command.PLAY + " " + ANY_CHARACTER_REGEX);
-
   private static final String YOUTUBE_SEARCH = "ytsearch: ";
   private static final String THE_TRACK = "The track: ";
   private static final String ADDED = "has been added";
@@ -46,47 +44,46 @@ public class PlayCommand extends AbstractCommand {
   protected void runCommand(MessageCreateEvent event, Server server, ServerTextChannel channel,
       User user) {
     if (checkNoCommandSyntaxError(event, BotError.PLAY, channel, Command.PLAY,
-        getFinalPattern(event))) {
+        null)) {
       event.getMessageAuthor().getConnectedVoiceChannel().ifPresentOrElse(voiceChannel -> {
-
         if (botHasPermissions(voiceChannel, event)) {
           ServerMusicManager musicManager = AudioManager.getServerManager(server.getId());
           String query = event.getMessageContent()
-              .replace(event.getMessageContent().split(" ")[0] + " ", "");
+              .replace(event.getMessageContent().split(" ")[FIRST] + " ", "");
           if (botIsNotConnectedAndAudioConnectionIsClosed(voiceChannel, event, server)) {
             joinChannelAndPlayTrack(voiceChannel, event, query, channel, musicManager);
-          } else if (server.getAudioConnection().isPresent()) {
+          } else if (botIsAlreadyConnectedToChannel(server)) {
             playTrackWhenAlreadyConnectedToChannel(server, voiceChannel, event, query,
                 channel, musicManager);
           }
         } else {
-          event.getChannel().sendMessage("Not enough permissions.");
+          event.getChannel().sendMessage(BOT_PERMISSION_ERROR.getDescription());
         }
-      }, () -> event.getChannel().sendMessage("You are not connected to any voice channel."));
+      }, () -> event.getChannel().sendMessage(USER_NOT_IN_A_VOICE_CHANNEL.getDescription()));
     }
   }
 
-  private void play(String query, ServerTextChannel channel, ServerMusicManager m) {
-    manager.loadItemOrdered(m, isUrl(query) ? query : YOUTUBE_SEARCH + query,
+  private void play(String query, ServerTextChannel channel, ServerMusicManager musicManagger) {
+    manager.loadItemOrdered(musicManagger, stringIsUrl(query) ? query : YOUTUBE_SEARCH + query,
         new FunctionalResultHandler(audioTrack -> {
           channel.sendMessage(
               THE_TRACK + audioTrack.getInfo().title + ADDED);
-          m.scheduler.queue(audioTrack);
+          musicManagger.scheduler.queue(audioTrack);
         }, audioPlaylist -> {
           if (audioPlaylist.isSearchResult()) {
-            m.scheduler.queue(audioPlaylist.getTracks().get(0));
+            musicManagger.scheduler.queue(audioPlaylist.getTracks().get(FIRST));
             channel.sendMessage(
-                THE_TRACK + audioPlaylist.getTracks().get(0).getInfo().title
+                THE_TRACK + audioPlaylist.getTracks().get(FIRST).getInfo().title
                     + ADDED);
           } else {
             audioPlaylist.getTracks().forEach(audioTrack -> {
-              m.scheduler.queue(audioTrack);
+              musicManagger.scheduler.queue(audioTrack);
               channel.sendMessage(
                   THE_TRACK + audioTrack.getInfo().title + QUEUED);
             });
           }
         }, () -> channel.sendMessage(NOT_FOUND), e -> channel.sendMessage(
-            "An error has occurred and the track couldn't be played "
+            AUDIO_TRACK_EXCEPTION.getDescription()
                 + e.getMessage())));
   }
 
@@ -99,7 +96,7 @@ public class PlayCommand extends AbstractCommand {
         audioConnection.setAudioSource(audio);
         play(query, channel, musicManager);
       } else {
-        event.getChannel().sendMessage("You are not in the same voice channel as the bot");
+        event.getChannel().sendMessage(NOT_IN_SAME_VOICE_CHANNEL.getDescription());
       }
     });
   }
@@ -113,14 +110,14 @@ public class PlayCommand extends AbstractCommand {
     });
   }
 
+  private boolean botIsAlreadyConnectedToChannel(Server server) {
+    return server.getAudioConnection().isPresent();
+  }
+
   private boolean botIsNotConnectedAndAudioConnectionIsClosed(ServerVoiceChannel voiceChannel,
       MessageCreateEvent event, Server server) {
     return !voiceChannel.isConnected(event.getApi().getYourself()) && server.getAudioConnection()
         .isEmpty();
-  }
-
-  private Pattern getFinalPattern(MessageCreateEvent event) {
-    return patternUrl.matcher(event.getMessageContent()).matches() ? patternUrl : patternAny;
   }
 
   private boolean botHasPermissions(ServerVoiceChannel voiceChannel, MessageCreateEvent event) {
@@ -128,7 +125,7 @@ public class PlayCommand extends AbstractCommand {
         event.getApi().getYourself(), PermissionType.SPEAK);
   }
 
-  private boolean isUrl(String argument) {
+  private boolean stringIsUrl(String argument) {
     return argument.startsWith("https://") || argument.startsWith("http://");
   }
 }
