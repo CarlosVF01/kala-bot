@@ -32,14 +32,14 @@ public class ResumeCommand extends AbstractCommand {
               AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
               if (audioPlayerNotPlayingTrackOrNotPaused(player)) {
-                event.getChannel().sendMessage(NOT_PAUSED);
+                channel.sendMessage(NOT_PAUSED);
 
               } else {
                 player.setPaused(false);
-                event.getChannel().sendMessage(RESUMED);
+                channel.sendMessage(RESUMED);
               }
             },
-            () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
+            () -> channel.sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 
 }

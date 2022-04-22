@@ -57,9 +57,9 @@ public class PlayCommand extends AbstractCommand {
                 channel, musicManager);
           }
         } else {
-          event.getChannel().sendMessage(BOT_PERMISSION_ERROR.getDescription());
+          channel.sendMessage(BOT_PERMISSION_ERROR.getDescription());
         }
-      }, () -> event.getChannel().sendMessage(USER_NOT_IN_A_VOICE_CHANNEL.getDescription()));
+      }, () -> channel.sendMessage(USER_NOT_IN_A_VOICE_CHANNEL.getDescription()));
     }
   }
 
@@ -96,7 +96,7 @@ public class PlayCommand extends AbstractCommand {
         audioConnection.setAudioSource(audio);
         play(query, channel, musicManager);
       } else {
-        event.getChannel().sendMessage(NOT_IN_SAME_VOICE_CHANNEL.getDescription());
+        channel.sendMessage(NOT_IN_SAME_VOICE_CHANNEL.getDescription());
       }
     });
   }

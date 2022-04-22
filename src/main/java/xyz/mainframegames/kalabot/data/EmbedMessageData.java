@@ -6,6 +6,9 @@ import lombok.Data;
 import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.message.MessageAuthor;
 
+/**
+ * Data class with the data required to create a basic embed
+ */
 @Data
 @Builder
 public class EmbedMessageData {
@@ -14,6 +17,6 @@ public class EmbedMessageData {
   private String title;
   private String description;
   private String footer;
-  private Icon thumbnail;
+  private String thumbnail;
   private Color color;
 }

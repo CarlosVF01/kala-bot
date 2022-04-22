@@ -68,7 +68,7 @@ public final class FunctionsAndPredicates {
    * @param event message event
    * @return the user obtained from the ID
    */
-  public static User getUseFromMentionFuture(User user, MessageCreateEvent event) {
+  public static User getUserFromMentionFuture(User user, MessageCreateEvent event) {
     User userFuture;
     try {
       userFuture = user.getApi()
@@ -83,7 +83,7 @@ public final class FunctionsAndPredicates {
 
   /**
    * Formats the user IDs that the bot gets from a mention. All of them have 18 numbers that
-   * represent the ID But when doing a mention the ID given can look like this based on if their
+   * represent the ID. But when doing a mention the ID given can look like this based on if their
    * nickname is changed or not: Example 1: <@!123456789123456789> Example 2: <@123456789123456789>
    * So to use the User ID first it needs to be formatted to one that only has numbers.
    *
@@ -110,7 +110,7 @@ public final class FunctionsAndPredicates {
       String title,
       String description,
       String footer,
-      Icon thumbnail,
+      String thumbnail,
       Color color) {
 
     return EmbedMessageData.builder().author(author)
@@ -118,7 +118,7 @@ public final class FunctionsAndPredicates {
         .title(title).description(description).thumbnail(thumbnail).build();
   }
 
-  public static boolean commandHasXAmountOfWords(MessageCreateEvent event, int amountOfWords){
+  public static boolean commandHasXAmountOfWords(MessageCreateEvent event, int amountOfWords) {
     return event.getMessageContent().trim().split(" ").length == amountOfWords;
   }
 }

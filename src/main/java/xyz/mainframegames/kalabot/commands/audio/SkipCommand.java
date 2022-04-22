@@ -34,13 +34,14 @@ public class SkipCommand extends AbstractCommand {
               AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
               if (audioPlayerNotPlayingTrackOrNotPaused(player)) {
-                event.getChannel().sendMessage(NOT_PLAYING);
+                channel.sendMessage(NOT_PLAYING);
 
               } else {
                 scheduler.nextTrack();
-                event.getChannel().sendMessage(SKIPPED);
+                channel.sendMessage(SKIPPED);
               }
             },
-            () -> event.getChannel().sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription()));
+            () -> event.getChannel()
+                .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 }

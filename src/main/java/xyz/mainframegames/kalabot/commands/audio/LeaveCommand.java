@@ -30,9 +30,9 @@ public class LeaveCommand extends AbstractCommand {
                           AudioManager.getServerManager(server.getId()).player.stopTrack();
                           connection.close();
                         },
-                        () -> event.getChannel()
+                        () -> channel
                             .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription())),
-            () -> event.getChannel()
+            () -> channel
                 .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 }

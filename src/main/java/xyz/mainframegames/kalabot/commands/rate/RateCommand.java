@@ -43,7 +43,7 @@ public class RateCommand extends AbstractCommand {
       Matcher matcher = pattern.matcher(event.getMessageContent());
       if (matcher.matches()) {
         int rating = random.nextInt(MAX_RATING_NUMBER);
-        User userFuture = FunctionsAndPredicates.getUseFromMentionFuture(user, event);
+        User userFuture = FunctionsAndPredicates.getUserFromMentionFuture(user, event);
 
         String userMentioned = matcher.group(1);
 
@@ -52,7 +52,7 @@ public class RateCommand extends AbstractCommand {
         Color color = Color.BLACK;
         String title = RATE_COMMAND_TITLE.toString();
         String description = userMentioned + " is a " + rating + "/" + MAX_RATING_NUMBER;
-        Icon thumbnail = userFuture.getAvatar();
+        String thumbnail = userFuture.getAvatar().getUrl().toString();
 
         EmbedMessageData messageData = embedMessageDataBuilder(messageAuthor, title, description, footer, thumbnail, color);
 

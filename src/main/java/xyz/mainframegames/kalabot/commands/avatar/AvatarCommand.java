@@ -32,7 +32,7 @@ public class AvatarCommand extends AbstractCommand {
       if (commandHasXAmountOfWords(event, 1)) {
         userAvatarUrl = user.getAvatar().getUrl().toString();
       } else {
-        User userFuture = FunctionsAndPredicates.getUseFromMentionFuture(user, event);
+        User userFuture = FunctionsAndPredicates.getUserFromMentionFuture(user, event);
         userAvatarUrl = userFuture.getAvatar().getUrl().toString();
       }
       messagingService.sendImage(userAvatarUrl + SIZE, channel);

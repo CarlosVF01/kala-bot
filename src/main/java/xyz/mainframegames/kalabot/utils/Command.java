@@ -1,7 +1,7 @@
 package xyz.mainframegames.kalabot.utils;
 
 /**
- * Enum with all the commands and descriptions to have them grouped in one place
+ * Enum with all the commands and descriptions
  */
 public enum Command {
 
