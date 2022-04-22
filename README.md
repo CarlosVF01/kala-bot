@@ -1,5 +1,7 @@
 # KalaBot
 
+I need to make a wiki.
+
 A [Discord](https://discord.com/) bot made in Java that
 uses [Javacord](https://github.com/Javacord/Javacord) and Spring Framework
 
