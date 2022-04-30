@@ -1,5 +1,9 @@
 # KalaBot
 
+To setup the bot go to resources/local/application.properties and change the token value to the one your bot has. 
+
+Once that is done just run the application and your bot will go online.
+
 I need to make a wiki.
 
 A [Discord](https://discord.com/) bot made in Java that
@@ -26,4 +30,5 @@ uses [Javacord](https://github.com/Javacord/Javacord) and Spring Framework
 - **Function**: Allows the bot to play music on an audio channel
 - **Command syntax**: !play [Youtube Link]
 
+WIP (audio commands, coordinate commands)
 
