@@ -28,5 +28,4 @@ build/
 
 .vscode/
 .mvn/wrapper/MavenWrapperDownloader.java
-coordinates.json
-src/main/resources/local/application.properties
+
