@@ -5,13 +5,10 @@ import java.util.Map;
 
 public class AudioManager {
 
-  /**
-   * Private class to avoid having it initialized
-   */
-  private AudioManager() {
-  }
-
   private static final Map<Long, ServerMusicManager> managers = new HashMap<>();
+
+  /** Private class to avoid having it initialized */
+  private AudioManager() {}
 
   /**
    * Retrieves the server music manager dedicated for the server.

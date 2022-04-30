@@ -20,7 +20,7 @@ public class SkipCommand extends AbstractCommand {
   private static final String SKIPPED = "Track skipped";
 
   public SkipCommand(MessagingService messagingService) {
-    super(Command.SKIP.toString(), messagingService);
+    super(Command.SKIP.getCommandInput(), messagingService);
   }
 
   @Override
@@ -41,7 +41,9 @@ public class SkipCommand extends AbstractCommand {
                 channel.sendMessage(SKIPPED);
               }
             },
-            () -> event.getChannel()
-                .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
+            () ->
+                event
+                    .getChannel()
+                    .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 }

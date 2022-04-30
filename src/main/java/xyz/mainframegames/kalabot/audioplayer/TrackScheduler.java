@@ -36,9 +36,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
   }
 
-  /**
-   * Start the next track, stopping the current one if it is playing.
-   */
+  /** Start the next track, stopping the current one if it is playing. */
   public void nextTrack() {
     player.startTrack(queue.poll(), false);
   }
@@ -46,8 +44,8 @@ public class TrackScheduler extends AudioEventAdapter {
   /**
    * Starts the next track once one ends
    *
-   * @param player    audio player
-   * @param track     audio track
+   * @param player audio player
+   * @param track audio track
    * @param endReason reason to end
    */
   @Override

@@ -8,15 +8,10 @@ public class PlayerManager {
 
   private static final AudioPlayerManager audioManager = new DefaultAudioPlayerManager();
 
-  /**
-   * Private constructor to avoid having this class initialized
-   */
-  private PlayerManager() {
-  }
+  /** Private constructor to avoid having this class initialized */
+  private PlayerManager() {}
 
-  /**
-   * Youtube source manager initialization
-   */
+  /** Youtube source manager initialization */
   public static void init() {
     audioManager.registerSourceManager(new YoutubeAudioSourceManager(true));
   }

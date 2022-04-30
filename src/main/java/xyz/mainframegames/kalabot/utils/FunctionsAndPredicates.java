@@ -2,10 +2,11 @@ package xyz.mainframegames.kalabot.utils;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import java.awt.Color;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.user.User;
@@ -14,9 +15,7 @@ import xyz.mainframegames.kalabot.data.EmbedMessageData;
 import xyz.mainframegames.kalabot.exception.DiscordApiCallException;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 
-/**
- * Class that contains predicates and functions that are use globally in the application
- */
+/** Class that contains predicates and functions that are use globally in the application */
 public final class FunctionsAndPredicates {
 
   public static final int FIRST = 0;
@@ -25,30 +24,26 @@ public final class FunctionsAndPredicates {
   private static final int NICKNAME_NOT_CHANGED_INDEX_START = 2;
   private static final int NICKNAME_CHANGED_INDEX_START = 3;
 
-  /**
-   * Private constructor to avoid having this class initialized
-   */
-  private FunctionsAndPredicates() {
-  }
+  /** Private constructor to avoid having this class initialized */
+  private FunctionsAndPredicates() {}
 
   /**
    * Sends an error message based on the enum variable introduced {@link BotError}
    *
    * @param messagingService messaging service that will send the message
-   * @param messageAuthor    author of the message
-   * @param textChannel      text channel where message will be sent
-   * @param botError         error title and description
+   * @param messageAuthor author of the message
+   * @param textChannel text channel where message will be sent
+   * @param botError error title and description
    */
   public static void sendErrorMessage(
       MessagingService messagingService,
       MessageAuthor messageAuthor,
       TextChannel textChannel,
       BotError botError) {
-    EmbedMessageData embedMessageData = embedMessageDataBuilder(messageAuthor, botError.getError(),
-        botError.getDescription(), null, null, Color.BLACK);
-    messagingService.sendMessageEmbed(
-        embedMessageData,
-        textChannel);
+    EmbedMessageData embedMessageData =
+        embedMessageDataBuilder(
+            messageAuthor, botError.getError(), botError.getDescription(), null, null, Color.BLACK);
+    messagingService.sendMessageEmbed(embedMessageData, textChannel);
   }
 
   /**
@@ -64,16 +59,17 @@ public final class FunctionsAndPredicates {
   /**
    * Calls the discord api to get a user, waiting up to 3 seconds
    *
-   * @param user  user that sent the message
+   * @param user user that sent the message
    * @param event message event
    * @return the user obtained from the ID
    */
   public static User getUserFromMentionFuture(User user, MessageCreateEvent event) {
     User userFuture;
     try {
-      userFuture = user.getApi()
-          .getUserById(formatUserId(event.getMessageContent().split(" ")[1]))
-          .get(3000L, TimeUnit.MILLISECONDS);
+      userFuture =
+          user.getApi()
+              .getUserById(formatUserId(event.getMessageContent().split(" ")[1]))
+              .get(3000L, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       Thread.currentThread().interrupt();
       throw new DiscordApiCallException(e.getMessage());
@@ -113,12 +109,26 @@ public final class FunctionsAndPredicates {
       String thumbnail,
       Color color) {
 
-    return EmbedMessageData.builder().author(author)
-        .footer(footer).color(color)
-        .title(title).description(description).thumbnail(thumbnail).build();
+    return EmbedMessageData.builder()
+        .author(author)
+        .footer(footer)
+        .color(color)
+        .title(title)
+        .description(description)
+        .thumbnail(thumbnail)
+        .build();
   }
 
   public static boolean commandHasXAmountOfWords(MessageCreateEvent event, int amountOfWords) {
     return event.getMessageContent().trim().split(" ").length == amountOfWords;
+  }
+
+  public static void writeToJson(String jsonString, String filePath) {
+    try (FileWriter fileWriter = new FileWriter(filePath)) {
+      fileWriter.append(jsonString);
+      fileWriter.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

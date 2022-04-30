@@ -1,8 +1,6 @@
 package xyz.mainframegames.kalabot.utils;
 
-/**
- * Class with all emojis used
- */
+/** Class with all emojis used */
 public enum Emoji {
   THUMBS_DOWN("👎"),
   SAD_FACE("😔");

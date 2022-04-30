@@ -19,7 +19,7 @@ public class ResumeCommand extends AbstractCommand {
   private static final String RESUMED = "Track resumed";
 
   public ResumeCommand(MessagingService messagingService) {
-    super(Command.RESUME.toString(), messagingService);
+    super(Command.RESUME.getCommandInput(), messagingService);
   }
 
   @Override
@@ -41,5 +41,4 @@ public class ResumeCommand extends AbstractCommand {
             },
             () -> channel.sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
-
 }

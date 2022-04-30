@@ -3,11 +3,17 @@ package xyz.mainframegames.kalabot;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import xyz.mainframegames.kalabot.audioplayer.PlayerManager;
 import xyz.mainframegames.kalabot.commands.audio.LeaveCommand;
 import xyz.mainframegames.kalabot.commands.audio.PauseCommand;
@@ -15,18 +21,21 @@ import xyz.mainframegames.kalabot.commands.audio.PlayCommand;
 import xyz.mainframegames.kalabot.commands.audio.ResumeCommand;
 import xyz.mainframegames.kalabot.commands.audio.SkipCommand;
 import xyz.mainframegames.kalabot.commands.avatar.AvatarCommand;
+import xyz.mainframegames.kalabot.commands.coordinate.CoordinateAdd;
+import xyz.mainframegames.kalabot.commands.coordinate.CoordinateRemove;
+import xyz.mainframegames.kalabot.commands.coordinate.CoordinateShow;
 import xyz.mainframegames.kalabot.commands.help.HelpCommand;
 import xyz.mainframegames.kalabot.commands.rate.RateCommand;
 import xyz.mainframegames.kalabot.services.messages.MessagingService;
 
+@PropertySource("classpath:local/application.properties")
 @SpringBootApplication
 public class Api {
 
-  @Autowired
-  Environment env;
+  @Autowired MessagingService messagingService;
 
-  @Autowired
-  MessagingService messagingService;
+  @Value("${token}")
+  public String token;
 
   public static void main(String[] args) {
     SpringApplication.run(Api.class, args);
@@ -35,7 +44,7 @@ public class Api {
   @Bean
   @ConfigurationProperties
   public DiscordApi discordApi() {
-    String token = env.getProperty("TOKEN");
+
     DiscordApi api =
         new DiscordApiBuilder().setToken(token).setAllNonPrivilegedIntents().login().join();
 
@@ -45,6 +54,9 @@ public class Api {
   }
 
   private void addMessageCreateListeners(DiscordApi api) {
+    api.addMessageCreateListener(new CoordinateShow(messagingService));
+    api.addMessageCreateListener(new CoordinateRemove(messagingService));
+    api.addMessageCreateListener(new CoordinateAdd(messagingService));
     api.addMessageCreateListener(new PlayCommand(messagingService));
     api.addMessageCreateListener(new LeaveCommand(messagingService));
     api.addMessageCreateListener(new SkipCommand(messagingService));

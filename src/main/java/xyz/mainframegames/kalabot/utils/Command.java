@@ -1,10 +1,7 @@
 package xyz.mainframegames.kalabot.utils;
 
-/**
- * Enum with all the commands and descriptions
- */
+/** Enum with all the commands and descriptions */
 public enum Command {
-
   RATE("rate", "Rates someone in a scale of 10"),
   PLAY("play", "Plays a youtube video"),
   PAUSE("pause", "Pauses the audio track"),
@@ -12,9 +9,12 @@ public enum Command {
   RESUME("resume", "Resumes the current audio track"),
   LEAVE("leave", "Makes the bot leave the voice channel"),
   AVATAR("avatar", "Shows your avatar"),
-  HELP("help", "Shows the list of available commands");
+  HELP("help", "Shows the list of available commands"),
+  COORDINATE_ADD("add", "Adds a minecraft coordinate"),
+  COORDINATE_REMOVE("remove", "Removes a minecraft coordinate by its ID"),
+  COORDINATE_SHOW_ALL("show", "Shows all minecraft coordinates");
 
-  private static final String COMMAND_PREFIX = "-";
+  public static final String COMMAND_PREFIX = "-";
   private final String commandInput;
   private final String commandDescription;
 
@@ -23,16 +23,11 @@ public enum Command {
     this.commandDescription = commandDescription;
   }
 
-  public String getCommandInput() {
-    return commandInput;
-  }
-
   public String getCommandDescription() {
     return commandDescription;
   }
 
-  @Override
-  public String toString() {
+  public String getCommandInput() {
     return commandInput;
   }
 }

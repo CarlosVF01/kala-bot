@@ -17,7 +17,7 @@ public class PauseCommand extends AbstractCommand {
   private static final String ALREADY_PAUSED = "The player is already paused";
 
   public PauseCommand(MessagingService messagingService) {
-    super(Command.PAUSE.toString(), messagingService);
+    super(Command.PAUSE.getCommandInput(), messagingService);
   }
 
   @Override

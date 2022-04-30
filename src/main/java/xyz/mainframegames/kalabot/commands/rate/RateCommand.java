@@ -9,7 +9,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
-import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.server.Server;
@@ -29,10 +28,11 @@ public class RateCommand extends AbstractCommand {
   private static final Pattern pattern = Pattern.compile(Command.RATE + " " + Regex.MENTION_REGEX);
   private static final int MAX_RATING_NUMBER = 10;
   private static final Random random = new Random();
-  private static final String NOT_LIKING_RATING = "If you didn't like this rating \nyou have 30 seconds to ";
+  private static final String NOT_LIKING_RATING =
+      "If you didn't like this rating \nyou have 30 seconds to ";
 
   public RateCommand(MessagingService messagingService) {
-    super(Command.RATE.toString(), messagingService);
+    super(Command.RATE.getCommandInput(), messagingService);
   }
 
   @Override
@@ -54,12 +54,11 @@ public class RateCommand extends AbstractCommand {
         String description = userMentioned + " is a " + rating + "/" + MAX_RATING_NUMBER;
         String thumbnail = userFuture.getAvatar().getUrl().toString();
 
-        EmbedMessageData messageData = embedMessageDataBuilder(messageAuthor, title, description, footer, thumbnail, color);
+        EmbedMessageData messageData =
+            embedMessageDataBuilder(messageAuthor, title, description, footer, thumbnail, color);
 
         messagingService.sendMessageEmbedWithReactionListenerDelete(
-            messageData,
-            THUMBS_DOWN,
-            event);
+            messageData, THUMBS_DOWN, event);
       }
     }
   }

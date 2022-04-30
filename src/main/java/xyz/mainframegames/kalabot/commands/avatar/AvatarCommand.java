@@ -21,7 +21,7 @@ public class AvatarCommand extends AbstractCommand {
   private static final String SIZE = "?size=1024";
 
   public AvatarCommand(MessagingService messagingService) {
-    super(COMMAND_TYPE.toString(), messagingService);
+    super(COMMAND_TYPE.getCommandInput(), messagingService);
   }
 
   @Override

@@ -7,16 +7,16 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.12</version>
-    <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>xyz.mainframegames</groupId>
-  <artifactId>kala-bot</artifactId>
+  <artifactId>KalaBot</artifactId>
   <version>0.2.2</version>
   <name>kala-bot</name>
   <description>A bot test</description>
   <properties>
-    <java.version>11</java.version>
+    <java.version>15</java.version>
   </properties>
+
   <repositories>
     <repository>
       <id>dv8tion</id>
@@ -63,15 +63,12 @@
       <artifactId>lombok</artifactId>
     </dependency>
 
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.9.0</version>
+        <scope>compile</scope>
+      </dependency>
+
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>

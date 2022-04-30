@@ -13,7 +13,7 @@ import xyz.mainframegames.kalabot.utils.Command;
 public class LeaveCommand extends AbstractCommand {
 
   public LeaveCommand(MessagingService messagingService) {
-    super(Command.LEAVE.toString(), messagingService);
+    super(Command.LEAVE.getCommandInput(), messagingService);
   }
 
   @Override
@@ -30,9 +30,9 @@ public class LeaveCommand extends AbstractCommand {
                           AudioManager.getServerManager(server.getId()).player.stopTrack();
                           connection.close();
                         },
-                        () -> channel
-                            .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription())),
-            () -> channel
-                .sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
+                        () ->
+                            channel.sendMessage(
+                                BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription())),
+            () -> channel.sendMessage(BotError.BOT_NOT_IN_A_VOICE_CHANNEL.getDescription()));
   }
 }

@@ -5,13 +5,9 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 public class ServerMusicManager {
 
-  /**
-   * Audio player for the server.
-   */
+  /** Audio player for the server. */
   public final AudioPlayer player;
-  /**
-   * Track scheduler for the player.
-   */
+  /** Track scheduler for the player. */
   public final TrackScheduler scheduler;
 
   /**

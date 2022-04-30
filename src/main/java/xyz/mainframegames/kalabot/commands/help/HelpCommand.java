@@ -16,11 +16,8 @@ import xyz.mainframegames.kalabot.utils.Command;
 
 public class HelpCommand extends AbstractCommand {
 
-  private static final String COMMAND_DELIMITER = ": ";
-  private static final String NEW_LINE = "\n";
-
   public HelpCommand(MessagingService messagingService) {
-    super(Command.HELP.toString(), messagingService);
+    super(Command.HELP.getCommandInput(), messagingService);
   }
 
   @Override
@@ -30,16 +27,20 @@ public class HelpCommand extends AbstractCommand {
 
     String commandDescription =
         Stream.of(values)
-            .map(command -> command.getCommandInput() + COMMAND_DELIMITER
-                + command.getCommandDescription())
+            .map(
+                command ->
+                    command.getCommandInput() + COMMAND_DELIMITER + command.getCommandDescription())
             .collect(Collectors.joining(NEW_LINE));
 
-    EmbedMessageData embedMessageData = embedMessageDataBuilder(event.getMessageAuthor(),
-        HELP_COMMAND_TITLE.toString(), commandDescription,
-        null, null, null);
+    EmbedMessageData embedMessageData =
+        embedMessageDataBuilder(
+            event.getMessageAuthor(),
+            HELP_COMMAND_TITLE.toString(),
+            commandDescription,
+            null,
+            null,
+            null);
 
-    messagingService.sendMessageEmbed(
-        embedMessageData,
-        channel);
+    messagingService.sendMessageEmbed(embedMessageData, channel);
   }
 }

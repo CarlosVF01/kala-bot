@@ -3,12 +3,9 @@ package xyz.mainframegames.kalabot.data;
 import java.awt.Color;
 import lombok.Builder;
 import lombok.Data;
-import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.message.MessageAuthor;
 
-/**
- * Data class with the data required to create a basic embed
- */
+/** Data class with the data required to create a basic embed */
 @Data
 @Builder
 public class EmbedMessageData {

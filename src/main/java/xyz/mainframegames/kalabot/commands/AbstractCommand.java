@@ -14,11 +14,11 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
-/**
- * Class to reduce duplicity of code when creating commands
- */
+/** Class to reduce duplicity of code when creating commands */
 public abstract class AbstractCommand implements MessageCreateListener {
 
+  protected static final String NEW_LINE = "\n";
+  protected static final String COMMAND_DELIMITER = ": ";
   protected final String command;
   protected final MessagingService messagingService;
 
@@ -67,22 +67,24 @@ public abstract class AbstractCommand implements MessageCreateListener {
   /**
    * Checks if there's a syntax error in the command introduced by the user
    *
-   * @param event    message event {@link MessageCreateEvent}
+   * @param event message event {@link MessageCreateEvent}
    * @param botError error depending on the command {@link BotError}
-   * @param channel  event channel {@link ServerTextChannel}
-   * @param command  command introduced {@link Command}
-   * @param pattern  pattern used to check the user input {@link Pattern} if it's null there won't
-   *                 be a check
+   * @param channel event channel {@link ServerTextChannel}
+   * @param command command introduced {@link Command}
+   * @param pattern pattern used to check the user input {@link Pattern} if it's null there won't be
+   *     a check
    * @return if there's an error (true) or not (false)
    */
   protected boolean checkNoCommandSyntaxError(
-      MessageCreateEvent event, BotError botError, ServerTextChannel channel, Command command,
+      MessageCreateEvent event,
+      BotError botError,
+      ServerTextChannel channel,
+      Command command,
       Pattern pattern) {
-    String messageContent = event.getMessageContent();
-    boolean messageStartsWithCommand = messageContent.startsWith(command.toString());
+    String messageContent = event.getMessageContent().trim();
+    boolean messageStartsWithCommand = messageContent.startsWith(command.getCommandInput());
     if (pattern != null) {
-      if (messageStartsWithCommand
-          && pattern.matcher(messageContent).matches()) {
+      if (messageStartsWithCommand && pattern.matcher(messageContent).matches()) {
         return true;
       }
     } else {
@@ -95,13 +97,13 @@ public abstract class AbstractCommand implements MessageCreateListener {
   }
 
   /**
-   * Runs the command based on the class that initialized it (for an example go to:
-   * {@link HelpCommand})
+   * Runs the command based on the class that initialized it (for an example go to: {@link
+   * HelpCommand})
    *
-   * @param event   message event
-   * @param server  server where message is sent
+   * @param event message event
+   * @param server server where message is sent
    * @param channel channel where message is sent
-   * @param user    user that sent the message
+   * @param user user that sent the message
    */
   protected abstract void runCommand(
       MessageCreateEvent event, Server server, ServerTextChannel channel, User user);
