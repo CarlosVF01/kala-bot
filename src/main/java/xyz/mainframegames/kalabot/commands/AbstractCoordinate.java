@@ -13,8 +13,8 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 
 public abstract class AbstractCoordinate extends AbstractCommand {
 
-  protected static final String REMOVED = "has been removed";
-  protected static final String ADDED = "has been added";
+  protected static final String REMOVED = " has been removed";
+  protected static final String ADDED = " has been added";
   protected static final int NAME_POSITION = 1;
   protected static final int X_POSITION = 2;
   protected static final int Y_POSITION = 3;
