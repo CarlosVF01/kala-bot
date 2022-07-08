@@ -30,8 +30,8 @@ public class PlayCommand extends AbstractCommand {
 
   private static final String YOUTUBE_SEARCH = "ytsearch: ";
   private static final String THE_TRACK = "The track: ";
-  private static final String ADDED = "has been added";
-  private static final String QUEUED = "has been queued";
+  private static final String ADDED = " has been added";
+  private static final String QUEUED = " has been queued";
   private static final String NOT_FOUND = "The track introduced has not been found";
 
   private final AudioPlayerManager manager = PlayerManager.getAudioManager();

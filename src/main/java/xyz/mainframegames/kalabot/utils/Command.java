@@ -7,7 +7,7 @@ public enum Command {
   PAUSE("pause", "Pauses the audio track"),
   SKIP("skip", "Skips the current audio track"),
   RESUME("resume", "Resumes the current audio track"),
-  LEAVE("leave", "Makes the bot leave the voice channel"),
+  STOP("stop", "Makes the bot leave the voice channel"),
   AVATAR("avatar", "Shows your avatar"),
   HELP("help", "Shows the list of available commands"),
   COORDINATE_ADD("add", "Adds a minecraft coordinate"),

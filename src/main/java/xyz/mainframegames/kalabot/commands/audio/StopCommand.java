@@ -10,10 +10,10 @@ import xyz.mainframegames.kalabot.services.messages.MessagingService;
 import xyz.mainframegames.kalabot.utils.BotError;
 import xyz.mainframegames.kalabot.utils.Command;
 
-public class LeaveCommand extends AbstractCommand {
+public class StopCommand extends AbstractCommand {
 
-  public LeaveCommand(MessagingService messagingService) {
-    super(Command.LEAVE.getCommandInput(), messagingService);
+  public StopCommand(MessagingService messagingService) {
+    super(Command.STOP.getCommandInput(), messagingService);
   }
 
   @Override

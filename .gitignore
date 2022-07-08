@@ -29,3 +29,4 @@ build/
 .vscode/
 .mvn/wrapper/MavenWrapperDownloader.java
 
+src/main/resources/local/application.properties

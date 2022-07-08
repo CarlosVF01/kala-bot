@@ -6,16 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import xyz.mainframegames.kalabot.audioplayer.PlayerManager;
-import xyz.mainframegames.kalabot.commands.audio.LeaveCommand;
+import xyz.mainframegames.kalabot.commands.audio.StopCommand;
 import xyz.mainframegames.kalabot.commands.audio.PauseCommand;
 import xyz.mainframegames.kalabot.commands.audio.PlayCommand;
 import xyz.mainframegames.kalabot.commands.audio.ResumeCommand;
@@ -42,12 +36,10 @@ public class Api {
   }
 
   @Bean
-  @ConfigurationProperties
   public DiscordApi discordApi() {
 
     DiscordApi api =
         new DiscordApiBuilder().setToken(token).setAllNonPrivilegedIntents().login().join();
-
     PlayerManager.init();
     addMessageCreateListeners(api);
     return api;
@@ -58,7 +50,7 @@ public class Api {
     api.addMessageCreateListener(new CoordinateRemove(messagingService));
     api.addMessageCreateListener(new CoordinateAdd(messagingService));
     api.addMessageCreateListener(new PlayCommand(messagingService));
-    api.addMessageCreateListener(new LeaveCommand(messagingService));
+    api.addMessageCreateListener(new StopCommand(messagingService));
     api.addMessageCreateListener(new SkipCommand(messagingService));
     api.addMessageCreateListener(new PauseCommand(messagingService));
     api.addMessageCreateListener(new ResumeCommand(messagingService));

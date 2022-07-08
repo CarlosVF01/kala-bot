@@ -25,7 +25,7 @@ import xyz.mainframegames.kalabot.utils.Regex;
 @Slf4j
 public class RateCommand extends AbstractCommand {
 
-  private static final Pattern pattern = Pattern.compile(Command.RATE + " " + Regex.MENTION_REGEX);
+  private static final Pattern pattern = Pattern.compile(Command.RATE.getCommandInput() + " " + Regex.MENTION_REGEX);
   private static final int MAX_RATING_NUMBER = 10;
   private static final Random random = new Random();
   private static final String NOT_LIKING_RATING =
