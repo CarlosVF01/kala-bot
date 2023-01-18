@@ -52,8 +52,8 @@ public final class FunctionsAndPredicates {
    * @param player audio player
    * @return boolean with the result
    */
-  public static boolean audioPlayerNotPlayingTrackOrNotPaused(AudioPlayer player) {
-    return player.getPlayingTrack() == null || !player.isPaused();
+  public static boolean audioPlayerNotPlayingTrack(AudioPlayer player) {
+    return player.getPlayingTrack() == null;
   }
 
   /**

@@ -1,6 +1,6 @@
 package xyz.mainframegames.kalabot.commands.audio;
 
-import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.audioPlayerNotPlayingTrackOrNotPaused;
+import static xyz.mainframegames.kalabot.utils.FunctionsAndPredicates.audioPlayerNotPlayingTrack;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import org.javacord.api.entity.channel.ServerTextChannel;
@@ -33,7 +33,7 @@ public class SkipCommand extends AbstractCommand {
               TrackScheduler scheduler = AudioManager.getServerManager(server.getId()).scheduler;
               AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
 
-              if (audioPlayerNotPlayingTrackOrNotPaused(player)) {
+              if (audioPlayerNotPlayingTrack(player)) {
                 channel.sendMessage(NOT_PLAYING);
 
               } else {

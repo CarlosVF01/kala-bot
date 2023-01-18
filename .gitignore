@@ -30,3 +30,5 @@ build/
 .mvn/wrapper/MavenWrapperDownloader.java
 
 src/main/resources/local/application.properties
+/out/
+src/main/resources/META-INF/MANIFEST.MF
