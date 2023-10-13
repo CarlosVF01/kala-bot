@@ -50,9 +50,8 @@ public class PlayCommand extends AbstractCommand {
           .ifPresentOrElse(
               voiceChannel -> {
                 if (botHasPermissions(voiceChannel, event)) {
-                  ServerMusicManager musicManager = AudioManager.getServerManager(server.getId());
-                  String query =
-                      event
+                  ServerMusicManager musicManager = AudioManager.getServerManager(server);
+                  String query = event
                           .getMessageContent()
                           .replace(event.getMessageContent().split(" ")[FIRST] + " ", "");
                   if (botIsNotConnectedAndAudioConnectionIsClosed(voiceChannel, event, server)) {
@@ -76,11 +75,11 @@ public class PlayCommand extends AbstractCommand {
         new FunctionalResultHandler(
             audioTrack -> {
               channel.sendMessage(THE_TRACK + audioTrack.getInfo().title + ADDED);
-              musicManagger.scheduler.queue(audioTrack);
+              musicManagger.getScheduler().queue(audioTrack);
             },
             audioPlaylist -> {
               if (audioPlaylist.isSearchResult()) {
-                musicManagger.scheduler.queue(audioPlaylist.getTracks().get(FIRST));
+                musicManagger.getScheduler().queue(audioPlaylist.getTracks().get(FIRST));
                 channel.sendMessage(
                     THE_TRACK + audioPlaylist.getTracks().get(FIRST).getInfo().title + ADDED);
               } else {
@@ -88,7 +87,7 @@ public class PlayCommand extends AbstractCommand {
                     .getTracks()
                     .forEach(
                         audioTrack -> {
-                          musicManagger.scheduler.queue(audioTrack);
+                          musicManagger.getScheduler().queue(audioTrack);
                           channel.sendMessage(THE_TRACK + audioTrack.getInfo().title + QUEUED);
                         });
               }
@@ -109,7 +108,7 @@ public class PlayCommand extends AbstractCommand {
         .ifPresent(
             audioConnection -> {
               if (audioConnection.getChannel().getId() == voiceChannel.getId()) {
-                AudioSource audio = new LavaplayerAudioSource(event.getApi(), musicManager.player);
+                AudioSource audio = new LavaplayerAudioSource(event.getApi(), musicManager.getPlayer());
                 audioConnection.setAudioSource(audio);
                 play(query, channel, musicManager);
               } else {
@@ -128,7 +127,7 @@ public class PlayCommand extends AbstractCommand {
         .connect()
         .thenAccept(
             audioConnection -> {
-              AudioSource audio = new LavaplayerAudioSource(event.getApi(), musicManager.player);
+              AudioSource audio = new LavaplayerAudioSource(event.getApi(), musicManager.getPlayer());
               audioConnection.setAudioSource(audio);
               play(query, channel, musicManager);
             });

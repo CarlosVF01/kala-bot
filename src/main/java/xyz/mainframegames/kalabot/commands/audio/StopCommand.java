@@ -27,7 +27,8 @@ public class StopCommand extends AbstractCommand {
                     .getAudioConnection()
                     .ifPresentOrElse(
                         connection -> {
-                          AudioManager.getServerManager(server.getId()).player.stopTrack();
+                          AudioManager.getServerManager(server).getPlayer().destroy();
+
                           connection.close();
                         },
                         () ->

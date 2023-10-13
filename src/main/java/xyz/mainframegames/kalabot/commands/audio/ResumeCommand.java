@@ -29,7 +29,7 @@ public class ResumeCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
+              AudioPlayer player = AudioManager.getServerManager(server).getPlayer();
 
               if (audioPlayerNotPlayingTrack(player)) {
                 channel.sendMessage(NOT_PAUSED);
