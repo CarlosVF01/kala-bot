@@ -30,8 +30,8 @@ public class SkipCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              TrackScheduler scheduler = AudioManager.getServerManager(server.getId()).scheduler;
-              AudioPlayer player = AudioManager.getServerManager(server.getId()).player;
+              TrackScheduler scheduler = AudioManager.getServerManager(server).getScheduler();
+              AudioPlayer player = AudioManager.getServerManager(server).getPlayer();
 
               if (audioPlayerNotPlayingTrack(player)) {
                 channel.sendMessage(NOT_PLAYING);

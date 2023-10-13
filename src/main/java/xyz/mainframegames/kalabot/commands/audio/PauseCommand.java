@@ -27,7 +27,7 @@ public class PauseCommand extends AbstractCommand {
         .getAudioConnection()
         .ifPresentOrElse(
             connection -> {
-              AudioPlayer audioPlayer = AudioManager.getServerManager(server.getId()).player;
+              AudioPlayer audioPlayer = AudioManager.getServerManager(server).getPlayer();
               if (audioPlayer.getPlayingTrack() == null) {
                 channel.sendMessage(BotError.NOT_PLAYING_MUSIC.getDescription());
               } else if (audioPlayer.isPaused()) {

@@ -39,8 +39,9 @@ public class Api {
   public DiscordApi discordApi() {
 
     DiscordApi api =
-        new DiscordApiBuilder().setToken(token).setAllNonPrivilegedIntents().login().join();
+        new DiscordApiBuilder().setToken(token).setAllIntents().login().join();
     PlayerManager.init();
+
     addMessageCreateListeners(api);
     return api;
   }
