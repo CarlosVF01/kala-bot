@@ -1,5 +1,7 @@
 # KalaBot
 
+2024 Edit: Kala Bot 2: The Return, soon? The base code of this thing is weird, but I made it while I was studying so I guess it's okay.
+
 To setup the bot go to resources/local/application.properties and change the token value to the one your bot has. 
 
 Once that is done just run the application and your bot will go online.
